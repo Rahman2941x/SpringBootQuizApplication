@@ -49,4 +49,10 @@ public class QuizController {
 
     }
 
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> DeleteById(@PathVariable Integer id){
+        return quizInterface.DeleteById(id);
+    }
+
 }
