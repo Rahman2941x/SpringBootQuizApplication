@@ -16,4 +16,6 @@ public interface QuizServiceInterface {
     ResponseEntity<List<QuizQuestions>> GetQuizQuestion(Integer id);
 
     ResponseEntity<Integer> GetQuizResult(Integer id, List<Responses> responses);
+
+    ResponseEntity<String> DeleteById(Integer id);
 }

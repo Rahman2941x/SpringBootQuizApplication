@@ -108,4 +108,18 @@ public class QuizServiceImpl implements QuizServiceInterface {
         return new ResponseEntity<>(right,HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> DeleteById(Integer id) {
+
+        Optional<Quiz> quiz =quizRepository.findById(id);
+
+        if(quiz.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No quiz find in this id : " +id);
+        }
+        quizRepository.deleteById(id);
+        return ResponseEntity.ok(id + " : Successfully Deleted");
+
+
+    }
+
 }
