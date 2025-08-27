@@ -29,7 +29,8 @@ public class QuestionController {
 
     @PostMapping("/question")
     public ResponseEntity<String> addQuestion(@RequestBody Question question){
-        return  questionServiceInterface.addQuestion(question);
+
+        return questionServiceInterface.addQuestion(question);
     }
 
 
