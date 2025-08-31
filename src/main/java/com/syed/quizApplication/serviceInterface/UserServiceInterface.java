@@ -7,4 +7,5 @@ public interface UserServiceInterface {
 
     ResponseEntity<String> registerUser(Users users);
 
+    ResponseEntity<String> Verify(Users users);
 }

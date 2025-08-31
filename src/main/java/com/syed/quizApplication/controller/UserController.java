@@ -24,4 +24,9 @@ public class UserController {
         return userServiceInterface.registerUser(users);
     }
 
+    @RequestMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody Users users){
+        return userServiceInterface.Verify(users);
+    }
+
 }
