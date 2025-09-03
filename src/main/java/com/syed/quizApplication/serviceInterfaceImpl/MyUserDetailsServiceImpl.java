@@ -30,8 +30,8 @@ public class MyUserDetailsServiceImpl implements MyUserDetailsServiceInterface {
 
 
         if(users ==null){
-            System.out.println("User not Found");
-            throw  new UsernameNotFoundException("User Not Found");
+            System.out.println("User not Found" + users.getUsername() + "<- user");
+            throw  new UsernameNotFoundException("User Not Found " + users.getUsername() + "<- user");
         }
 
         return  new UserPrincipal(users);

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class UserServiceImpl implements UserServiceInterface {
     @Autowired
     private UserRespositoy respositoy;
 
+    @Autowired
+    private JwtService jwtService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -47,8 +50,8 @@ public class UserServiceImpl implements UserServiceInterface {
       Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(users.getUsername(),users.getPassword()));
 
         if (authentication.isAuthenticated())
-          return  ResponseEntity.status(HttpStatus.OK).body("Verified User");
+          return  ResponseEntity.status(HttpStatus.OK).body(jwtService.generateToken(users.getUsername()));
 
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No User Found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Details not found");
     }
 }
