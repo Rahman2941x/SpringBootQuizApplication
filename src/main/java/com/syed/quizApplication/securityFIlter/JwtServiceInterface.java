@@ -1,4 +1,4 @@
-package com.syed.quizApplication.serviceInterface;
+package com.syed.quizApplication.securityFIlter;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

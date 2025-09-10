@@ -1,18 +1,15 @@
 package com.syed.quizApplication.serviceInterfaceImpl;
 
-import com.sun.net.httpserver.Authenticator;
 import com.syed.quizApplication.model.Users;
 import com.syed.quizApplication.repository.UserRespositoy;
+import com.syed.quizApplication.securityFIlter.JwtService;
 import com.syed.quizApplication.serviceInterface.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

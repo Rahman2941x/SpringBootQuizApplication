@@ -1,16 +1,19 @@
 package com.syed.quizApplication.serviceInterfaceImpl;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.syed.quizApplication.customExceptions.QuestionNotFoundException;
 import com.syed.quizApplication.model.Question;
 import com.syed.quizApplication.repository.QuestionRepository;
 import com.syed.quizApplication.serviceInterface.QuestionServiceInterface;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Field;
+import java.util.*;
 
 @Service
 public class QuestionServiceImpl implements QuestionServiceInterface {
@@ -20,6 +23,9 @@ public class QuestionServiceImpl implements QuestionServiceInterface {
     public QuestionServiceImpl(QuestionRepository repository){
         this.repository=repository;
     }
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
 
     @Override
@@ -67,14 +73,51 @@ public class QuestionServiceImpl implements QuestionServiceInterface {
 
     @Override
     public ResponseEntity<Question> DeleteById(Integer id) {
-        Optional<Question> deletedQuestion =repository.findById(id);
-        try {
-            repository.deleteById(id);
-            return deletedQuestion.map(ResponseEntity::ok).get();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(deletedQuestion.orElse(new Question()), HttpStatus.BAD_REQUEST);
+
+       Question question = repository.findById(id).orElseThrow(() ->new QuestionNotFoundException(id));
+
+
+       repository.deleteById(id);
+       return ResponseEntity.status(HttpStatus.OK).body(question);
+
+
+
+    }
+
+    @Override
+    public Question updateBody(Integer id, Question question) {
+
+        return repository.findById(id)
+                .map(updateUser->{
+                    question.setId(id);
+                    return repository.save(question);
+                }).orElseThrow(()->new QuestionNotFoundException(id));
+    }
+
+    @Override
+    public Question updatePartialBody(Integer id, Map<String, Object> fields) {
+
+        Question question =repository.findById(id)
+                .orElseThrow(()->new QuestionNotFoundException(id));
+
+            try {
+                objectMapper.updateValue(question,fields);
+            } catch (JsonMappingException e) {
+                throw new RuntimeException(e);
+            }
+
+
+        return repository.save(question);
+
+//        if(question.isPresent()){
+//            fields.forEach((key,value)->{
+//                Field field= ReflectionUtils.findField(Question.class,key);
+//                                field.setAccessible(true);
+//                ReflectionUtils.setField(field,question,value);
+//            });
+//            return repository.save(question.get());
+//        }
+//            return question.orElseThrow(()->new QuestionNotFoundException(id));
     }
 
 }

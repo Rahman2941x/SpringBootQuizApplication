@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpRequest;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -45,8 +47,19 @@ public class QuestionController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Question> DeleteById(@PathVariable Integer id){
-       return questionServiceInterface.DeleteById(id);
+    public ResponseEntity<Question>  DeleteById(@PathVariable Integer id){
+        return questionServiceInterface.DeleteById(id);
+    }
+
+    @PutMapping("/update/{id}")
+    public Question updateEntierBody(@PathVariable Integer id,@RequestBody Question question){
+        return questionServiceInterface.updateBody(id,question);
+    }
+
+
+    @PatchMapping("/Patch/{id}")
+    public Question updatePartialBody(@PathVariable Integer id, @RequestBody Map<String , Object> fields){
+       return questionServiceInterface.updatePartialBody(id,fields);
     }
 
 }

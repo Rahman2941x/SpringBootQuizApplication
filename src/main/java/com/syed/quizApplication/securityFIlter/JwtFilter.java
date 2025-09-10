@@ -1,7 +1,5 @@
 package com.syed.quizApplication.securityFIlter;
 
-import com.syed.quizApplication.serviceInterface.MyUserDetailsServiceInterface;
-import com.syed.quizApplication.serviceInterfaceImpl.JwtService;
 import com.syed.quizApplication.serviceInterfaceImpl.MyUserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String authHeader=request.getHeader("Authorization");
 
-        //value should be null only if you put "" this will drain your brain
+        //The value should be null only in the JWT filter. If you use "", it will just drain your brain.
         String token=null;
         String username=null;
 
