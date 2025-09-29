@@ -1,10 +1,7 @@
 package com.syed.quizApplication.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
 import org.hibernate.annotations.Cache;
 
 @Entity
@@ -12,7 +9,12 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+    
+    @Column(name = "Question_Title",
+    nullable = false,
+    columnDefinition = "Text")
     private String questionTitle;
     @Column(name ="option_A")
     private String optionA;
@@ -22,9 +24,11 @@ public class Question {
     private String optionC;
     @Column(name ="option_D")
     private String optionD;
-    @Column(name ="correct_Answer")
+    @Column(name ="correct_Answer",nullable = false)
     private String correctAnswer;
 
+    @Column(name = "Category",nullable = false,unique = true)
+   // check for object only @NonNull
     private String category;
 
     @Enumerated(EnumType.STRING)

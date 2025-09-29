@@ -3,13 +3,12 @@ package com.syed.quizApplication.controller;
 
 import com.syed.quizApplication.model.Question;
 import com.syed.quizApplication.serviceInterface.QuestionServiceInterface;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
@@ -25,7 +24,7 @@ public class QuestionController {
 
    @GetMapping("/questions")
     public ResponseEntity<List<Question>> getAllQuestions(){
-        return questionServiceInterface.getAllQuestions();
+        return questionServiceInterface.getAllQuestionss();
 
     }
 
@@ -60,6 +59,21 @@ public class QuestionController {
     @PatchMapping("/Patch/{id}")
     public Question updatePartialBody(@PathVariable Integer id, @RequestBody Map<String , Object> fields){
        return questionServiceInterface.updatePartialBody(id,fields);
+    }
+
+
+
+    @GetMapping("/questions/sort/{field}")
+    public ApiResponse<List<Question>> getAllQuestionWithSorting(@PathVariable String field){
+       return questionServiceInterface.getQuestionWithSorted(field);
+    }
+
+    @GetMapping("/questions/Paginated")
+    public ApiResponse<Page<Question>> getAllQuestionWithPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+       return questionServiceInterface.getAllQuestionWithPaging(page,size);
     }
 
 }
